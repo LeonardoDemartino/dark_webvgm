@@ -26,6 +26,7 @@ How to use:
 Todo:
 1) Equalizer?
 2) Mute per channel?
+3) Make it an App? (Chrome app?)
 
 Regards, Delek.
 
