@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+
+<meta http-equiv="X-UA-Compatible" content="chrome=1" />
+<title>Dark & offline webVGM</title>
+<meta name="author" content="Juergen Wothke/Leonardo Demartino">
+<meta name="keywords" content="WebAudio API, HTML5, JavaScript">
+
+
+<link href="stdlib/common.css" rel="stylesheet" type="text/css">
+<link href="add_on.css" rel="stylesheet" type="text/css">
+
+<script type="text/javascript" src="stdlib/jquery1.11.min.js"></script>
+<script type="text/javascript" src="stdlib/jquery.details.min.js"></script>
+<script type="text/javascript" src="stdlib/scriptprocessor_player.min.js"></script>
+
+<script type="text/javascript" src="stdlib/mini_display.js"></script>
+<script type="text/javascript" src="stdlib/mini_controls.js"></script>
+
+<script type="text/javascript" src="backend_vgm.js"></script>
+<script>
+var playerControls;
+var	songDisplay;
+
+var songs = [
+];
+
+// configure what music infos to display in SongDisplay
+VGMDisplayAccessor = (function(){ var $this = function (doGetSongInfo) {
+		$this.base.call(this, doGetSongInfo);
+	}; 
+	extend(DisplayAccessor, $this, {
+		getDisplayTitle: function() 	{ return this.getSongInfo().desc + " ("+this.getSongInfo().program+")";},
+		getDisplaySubtitle: function() 	{ return this.getSongInfo().author+" - "+this.getSongInfo().title;},
+		getDisplayLine1: function() { return "";/*this.getSongInfo().currentTrack;*/},
+		getDisplayLine2: function() { return "";/*this.getSongInfo().tracks;*/ },
+		getDisplayLine3: function() { return "";/*this.getSongInfo().player;*/ }
+	});	return $this; })();
+		
+// link player events to "controls" and "display"
+function doOnTrackEnd(){
+	if (playerControls) playerControls.playNextSong();  
+}
+function doOnTrackReadyToPlay(){ 	
+	ScriptNodePlayer.getInstance().play();
+	songDisplay.redrawSongInfo();
+}
+function doOnPlayerReady() {
+	if (playerControls) playerControls.playNextSong();
+}
+function init() {
+	// --------------------------- VGM music player -----------------------
+	var basePath= '';		// not needed here
+	ScriptNodePlayer.createInstance(new VgmBackendAdapter(), basePath, [], true,
+										doOnPlayerReady, doOnTrackReadyToPlay, doOnTrackEnd);
+		
+	playerControls= new BasicPlayerControls('', true, false,
+				(function(someSong) {
+					var arr= someSong.split(";");	
+					var boostVolume= arr.length>1?parseInt(arr[1]):0;		
+					var url= arr[0];
+					
+					var options= {};
+					options.track= 0;// archives are not supported and *.vgz/*.vgm contain always 1 track
+					options.boostVolume= boostVolume;
+					return [url, options];
+				}),
+				0
+			);
+
+	var yellow= 0xf4cb25;
+	var red= 0xef210a;
+	var blue= 0x1b1088;
+	var purple= 0x630f64;
+	
+	songDisplay= new SongDisplay(new VGMDisplayAccessor((function(){return playerControls.getSongInfo();})), 
+								[yellow, red, purple, blue, blue], 2, 0.3, (function(){playerControls.animate()}));
+	songDisplay.drawHelpInfo();
+	playerControls.playNextSong();
+}
+</script>
+</head>
+
+<body onload="init();">
+
+<details>
+
+  <span id="controls"></span>
+ </div>
+</details>
+<aside></aside>
+<section>
+  <div id="logo" class="logo">
+	<div id="moz-reflect-logo"><canvas  id="logoCanvas"></canvas></div>
+  </div>
+  <div id="visual">
+	  <div id="spectrum" class="spectrum">
+	  	<div id="moz-reflect-spectrum"><canvas id="spectrumCanvas" width="200" height="200"></canvas></div>
+	  </div>
+
+  </div>
+  <div id="drop" class="drop"><img style="width:100%;height:100%;"></div><!--see BasicPlayerControls-->
+</section>
+</body>
+</html>

@@ -1,0 +1,68 @@
+.logo {
+  position: relative;
+  top: 40px;
+}
+#logo {
+
+}
+#moz-reflect-logo{
+  width:100%;
+}
+#moz-reflect-logo:after {
+    content: "";
+    display: none;
+}
+
+#moz-reflect-logo.enableMozReflection:after {
+    display: block;
+
+
+    position:relative;
+    width: auto;
+    height: 175px;
+    margin-bottom: 0px;
+    -moz-transform: scaleY(-1);
+}
+
+#visual {
+    margin-bottom: 30%;
+}
+
+.spectrum {
+
+	top: -20px;
+	left: 265px;
+ 
+	-webkit-box-reflect: below 1px -webkit-linear-gradient(top, transparent, transparent 50%, rgba(255,255,255,0.4));
+}
+#spectrum {
+  -moz-transform: translateX(-150px) translateY(-580px) translateZ(-500px) rotateX(-50deg) rotateY(40deg);  
+}
+
+#moz-reflect-spectrum:after {
+    content: "";
+    display: none;
+}
+
+#moz-reflect-spectrum.enableMozReflection:after {
+    display: block;
+	background: -moz-linear-gradient(top, white, white 30%, rgba(255,255,255,0.6) 65%, rgba(255,255,255,0.3)) -60px,
+	            -moz-element(#moz-reflect-spectrum)  0px -27px no-repeat;
+	position:relative;
+	top: 0px;
+    width: 100%;
+	height: 100%;
+	margin-bottom: 0px;
+	-moz-transform: scaleY(-1);
+}
+
+.drop {
+  position: absolute;
+	width:100%;
+	height:100%;
+}
+#drop {
+  position: absolute;
+  width:100%;
+  height:100%;
+}
