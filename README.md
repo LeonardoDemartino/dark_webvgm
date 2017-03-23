@@ -19,6 +19,10 @@ But maybe you will like this changes too so I decided to share this “fork”, 
 8) I added my favorite songs from Arcade machines in music folder. You’re welcome <3
 9) I don’t remember.
 
+How to use:
+1) Open player.html on a web browser
+2) Drag and drop vgm/vgz files to the window.
+
 Todo:
 1) Equalizer?
 2) Mute per channel?
