@@ -33,7 +33,7 @@ Regards, Delek.
 Leonardo Demartino
 delek.net
 
-
+WARNING: New Google Chrome builds have disabled the auto play feature of audio, so you have to re-enable it for this to work properly with chrome://flags/#autoplay-policy
 
 
 Original readme file:
